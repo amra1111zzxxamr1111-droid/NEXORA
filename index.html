@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | The Digital Visionary</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root { --primary: #00f2ff; --bg: #000000; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #fff; overflow-x: hidden; }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        
+        /* 5-Second Pro Intro */
+        #pro-intro { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .floating-window { position: absolute; width: 200px; height: 120px; border: 1px solid var(--primary); background: rgba(0,242,255,0.05); border-radius: 8px; opacity: 0; pointer-events: none; padding: 10px; font-family: monospace; font-size: 8px; color: var(--primary); }
+
+        /* Service Visuals */
+        .service-img { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,242,255,0.2); transition: 0.5s; }
+        .service-img:hover { border-color: var(--primary); transform: scale(1.02); }
+        .mockup-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%); display: flex; align-items: flex-end; padding: 20px; }
+
+        /* Buttons & Animations */
+        .btn-glow { transition: 0.3s; position: relative; overflow: hidden; }
+        .btn-glow:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-3px); }
+        .eng-card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .eng-card:hover { transform: scale(1.05); border-color: var(--primary); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="pro-intro">
+        <div id="windows-container" class="absolute inset-0"></div>
+        <div class="relative z-10 text-center">
+            <h1 id="main-logo" class="orbitron text-7xl md:text-[10rem] font-black opacity-0 scale-50">NEXORA</h1>
+            <p id="boot-text" class="text-cyan-400 tracking-[1em] text-[10px] mt-4 opacity-0 uppercase">Quantum System Loading...</p>
+        </div>
+    </div>
+
+    <nav class="fixed w-full z-50 p-6 flex justify-between items-center bg-black/40 backdrop-blur-xl">
+        <div onclick="adminGate()" class="flex items-center gap-3 cursor-pointer">
+            <div class="w-8 h-8 bg-cyan-400 rotate-45 shadow-[0_0_15px_#00f2ff]"></div>
+            <span class="orbitron text-2xl font-black">NEXORA</span>
+        </div>
+        <div class="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-widest opacity-60">
+            <a href="#home" class="hover:text-cyan-400">الرئيسية</a>
+            <a href="#services" class="hover:text-cyan-400">الخدمات</a>
+            <a href="#team" class="hover:text-cyan-400">الخبراء</a>
+        </div>
+        <div class="flex gap-4">
+            <button onclick="openModal('order')" class="btn-glow bg-cyan-500 text-black px-6 py-2 rounded-full text-[10px] font-black italic">اطلب مشروعك</button>
+            <button onclick="openModal('consult')" class="btn-glow bg-white text-black px-6 py-2 rounded-full text-[10px] font-black italic">احجز استشارة</button>
+        </div>
+    </nav>
+
+    <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center p-6 pt-24">
+        <h2 class="orbitron text-cyan-400 text-sm mb-6 tracking-[0.5em] font-black italic">// FUTURE ARCHITECTS</h2>
+        <h1 class="text-6xl md:text-[9rem] font-black leading-none mb-10 tracking-tighter">NEXORA<br><span class="text-transparent" style="-webkit-text-stroke: 1px #fff;">DIGITAL.</span></h1>
+        <p class="text-gray-500 max-w-2xl text-lg mb-12">نحن لسنا مجرد شركة برمجيات، نحن مصنع الحلول الذكية التي تضعك في القمة.</p>
+        <div class="flex gap-6">
+            <button onclick="window.location.href='#services'" class="border border-white/20 px-10 py-4 rounded-full font-bold hover:bg-white hover:text-black transition">استكشف خدماتنا</button>
+        </div>
+    </section>
+
+    <section id="services" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto space-y-32">
+            
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="order-2 lg:order-1">
+                    <span class="text-cyan-400 orbitron text-xs font-black">// 01 DEVELOPMENT</span>
+                    <h3 class="text-5xl font-black mt-4 mb-6 italic">تطوير المواقع والمنصات</h3>
+                    <p class="text-gray-400 leading-relaxed text-lg mb-8">نصمم لك واجهة تعكس هويتك وتجذب عملائك، مع برمجة خلفية صلبة تضمن أسرع أداء وأعلى حماية. نكسورا هي بيتك البرمجي الأول.</p>
+                    <button onclick="openModal('order')" class="bg-white text-black px-8 py-3 rounded-xl font-black">اطلب موقعك الآن</button>
+                </div>
+                <div class="order-1 lg:order-2 service-img h-[400px]">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60">
+                    <div class="mockup-overlay">
+                        <div class="orbitron text-2xl font-black bg-black/80 px-4 py-2 rounded">NEXORA_WEB_OS</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="service-img h-[400px]">
+                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60">
+                    <div class="mockup-overlay">
+                        <div class="orbitron text-2xl font-black bg-cyan-500 text-black px-4 py-2 rounded">NEXORA_APP_HUB</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-cyan-400 orbitron text-xs font-black">// 02 MOBILE SYSTEMS</span>
+                    <h3 class="text-5xl font-black mt-4 mb-6 italic">تطبيقات الموبايل</h3>
+                    <p class="text-gray-400 leading-relaxed text-lg mb-8">تطبيقات iOS و Android تعتمد على تجربة المستخدم (UX). نضمن لك تطبيقاً يتصدر المتاجر الإلكترونية بلمسة احترافية.</p>
+                    <button onclick="openModal('order')" class="bg-cyan-500 text-black px-8 py-3 rounded-xl font-black">ابدأ برمجة تطبيقك</button>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div>
+                    <span class="text-cyan-400 orbitron text-xs font-black">// 03 GROWTH & STRATEGY</span>
+                    <h3 class="text-5xl font-black mt-4 mb-6 italic">التسويق والاستشارات</h3>
+                    <p class="text-gray-400 leading-relaxed text-lg mb-8">إذا كنت تملك رأس المال وتبحث عن البداية الصحيحة، المهندس عمرو صلاح يضع لك الخطة التسويقية والاستراتيجية للسيطرة على السوق.</p>
+                    <button onclick="openModal('consult')" class="bg-white text-black px-8 py-3 rounded-xl font-black">احجز استشارتك</button>
+                </div>
+                <div class="service-img h-[400px]">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60">
+                    <div class="mockup-overlay">
+                        <div class="orbitron text-2xl font-black bg-white text-black px-4 py-2 rounded">NEXORA_GROWTH</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="team" class="py-32 bg-white/[0.01]">
+        <div class="max-w-7xl mx-auto px-6">
+            <h3 class="text-4xl font-black italic mb-16 text-center">عقول نكسورا المدبرة</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-10 rounded-[3rem] eng-card text-center">
+                    <h4 class="text-2xl font-black mb-2 italic">م/ عمرو صلاح</h4>
+                    <p class="text-cyan-400 text-[10px] font-bold uppercase mb-6 tracking-widest italic">Business Architect & CEO</p>
+                    <p class="text-gray-400 text-sm leading-loose mb-8 italic">خبير في تحويل الأفكار إلى شركات ناجحة. يمتلك رؤية ثاقبة في السوق المصري والخليجي، وهو المسؤول عن رسم خارطة الطريق لجميع مشاريعنا.</p>
+                    <div class="flex justify-center gap-4">
+                        <a href="https://wa.me/201107545181" class="text-xl hover:text-cyan-400"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:amra7777zzxxamr7777@gmail.com" class="text-xl hover:text-cyan-400"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="glass p-10 rounded-[3rem] eng-card text-center border-t-2 border-cyan-500">
+                    <h4 class="text-2xl font-black mb-2 italic">م/ ريني عماد</h4>
+                    <p class="text-cyan-400 text-[10px] font-bold uppercase mb-6 tracking-widest italic">UI/UX Strategy Queen</p>
+                    <p class="text-gray-400 text-sm leading-loose mb-8 italic">العقل المبدع خلف كل واجهة تراها. تهتم بأدق التفاصيل البصرية لضمان أن يكون موقعك أو تطبيقك لوحة فنية سهلة الاستخدام.</p>
+                    <div class="flex justify-center gap-4">
+                        <a href="https://wa.me/201283029727" class="text-xl hover:text-cyan-400"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:rehamnageh21@gmail.com" class="text-xl hover:text-cyan-400"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="glass p-10 rounded-[3rem] eng-card text-center">
+                    <h4 class="text-2xl font-black mb-2 italic">م/ يوسف ماجد</h4>
+                    <p class="text-cyan-400 text-[10px] font-bold uppercase mb-6 tracking-widest italic">Backend & Security Titan</p>
+                    <p class="text-gray-400 text-sm leading-loose mb-8 italic">حارس النظام. المسؤول عن بناء السيرفرات القوية وحماية بيانات العملاء، يضمن أن يعمل نظامك تحت أي ضغط وبأعلى سرعة ممكنة.</p>
+                    <div class="flex justify-center gap-4">
+                        <a href="https://wa.me/201153644680" class="text-xl hover:text-cyan-400"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:yousefelfakhry35@gmail.com" class="text-xl hover:text-cyan-400"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="modal-box" class="fixed inset-0 bg-black/95 z-[500] hidden items-center justify-center p-6 backdrop-blur-3xl">
+        <div class="glass w-full max-w-xl p-12 rounded-[3.5rem] border border-cyan-400/20 relative">
+            <button onclick="closeModal()" class="absolute top-8 left-8 text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
+            <div id="project-form" class="hidden space-y-6 text-right">
+                <h3 class="text-3xl font-black italic">طلب مشروع نكسورا</h3>
+                <input id="in-name" type="text" placeholder="الاسم الكامل" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
+                <input id="in-phone" type="text" placeholder="رقم الهاتف" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
+                <textarea id="in-desc" placeholder="اوصف لنا رؤيتك..." class="w-full bg-white/5 p-4 rounded-xl border border-white/10 h-32 outline-none"></textarea>
+                <button onclick="submitData('projects')" class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black text-lg">تشفير وإرسال</button>
+            </div>
+            <div id="consult-form" class="hidden space-y-6 text-right">
+                <h3 class="text-3xl font-black italic">حجز استشارة بيزنس</h3>
+                <input id="co-name" type="text" placeholder="الاسم الرباعي" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
+                <input id="co-whatsapp" type="text" placeholder="واتساب" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
+                <textarea id="co-notes" placeholder="ما هي التحديات التي تواجهك؟" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 h-32 outline-none"></textarea>
+                <button onclick="submitData('consults')" class="w-full bg-white text-black py-4 rounded-xl font-black text-lg">تأكيد الجلسة</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="fixed inset-0 bg-black z-[2000] hidden p-10 overflow-y-auto">
+        <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-5">
+            <h2 class="orbitron text-2xl font-black text-cyan-400">NEXORA_DB_V2.0</h2>
+            <button onclick="location.reload()" class="bg-red-600 px-6 py-1 rounded-full text-[10px] font-black uppercase">Terminate</button>
+        </div>
+        <div id="admin-content" class="grid md:grid-cols-2 gap-10"></div>
+    </div>
+
+    <footer class="py-10 text-center opacity-30">
+        <p class="text-[8px] uppercase tracking-[1em]">© 2026 NEXORA SYSTEMS | BY AMR & REENY & YOUSEF</p>
+    </footer>
+
+    <script>
+        const API = "https://nexora-e5de6-default-rtdb.firebaseio.com/";
+
+        // 1. ADVANCED INTRO
+        window.addEventListener('load', () => {
+            const container = document.getElementById('windows-container');
+            for(let i=0; i<15; i++) {
+                const win = document.createElement('div');
+                win.className = 'floating-window';
+                win.style.left = Math.random() * 80 + '%';
+                win.style.top = Math.random() * 80 + '%';
+                win.innerHTML = `> INIT_MODULE_${Math.random().toString(16).slice(2,6)}<br>> LOADING_DATA...<br>> OK.`;
+                container.appendChild(win);
+            }
+
+            const tl = gsap.timeline();
+            tl.to(".floating-window", { opacity: 1, stagger: 0.1, duration: 0.5 })
+              .to(".floating-window", { x: () => Math.random()*100-50, y: () => Math.random()*100-50, duration: 3, ease: "none" }, "-=1.5")
+              .to("#main-logo", { opacity: 1, scale: 1, duration: 1, ease: "expo.out" }, "-=2")
+              .to("#boot-text", { opacity: 1, duration: 0.5 }, "-=1")
+              .to("#pro-intro", { yPercent: -100, duration: 1.2, ease: "expo.inOut", delay: 1 });
+        });
+
+        // 2. MODAL SYSTEM
+        function openModal(type) {
+            document.getElementById('modal-box').style.display = 'flex';
+            document.getElementById('project-form').classList.toggle('hidden', type !== 'order');
+            document.getElementById('consult-form').classList.toggle('hidden', type !== 'consult');
+        }
+        function closeModal() { document.getElementById('modal-box').style.display = 'none'; }
+
+        // 3. DATABASE
+        async function submitData(path) {
+            let data = {};
+            if(path === 'projects') {
+                data = { name: document.getElementById('in-name').value, phone: document.getElementById('in-phone').value, desc: document.getElementById('in-desc').value, date: new Date().toLocaleString('ar-EG') };
+            } else {
+                data = { name: document.getElementById('co-name').value, whatsapp: document.getElementById('co-whatsapp').value, notes: document.getElementById('co-notes').value, date: new Date().toLocaleString('ar-EG') };
+            }
+            if(!data.name) return alert("اكمل البيانات");
+            await fetch(`${API}${path}.json`, { method: 'POST', body: JSON.stringify(data) });
+            alert("تم إرسال بياناتك بأمان.");
+            closeModal();
+        }
+
+        // 4. ADMIN ACCESS
+        let clicks = 0;
+        function adminGate() {
+            clicks++;
+            if(clicks === 3) {
+                if(prompt("Enter Admin Key:") === "15102009") {
+                    document.getElementById('admin-panel').classList.remove('hidden');
+                    loadAdmin();
+                }
+                clicks = 0;
+            }
+            setTimeout(() => clicks = 0, 2000);
+        }
+
+        async function loadAdmin() {
+            const pRes = await fetch(`${API}projects.json`);
+            const cRes = await fetch(`${API}consults.json`);
+            const pData = await pRes.json();
+            const cData = await cRes.json();
+            const area = document.getElementById('admin-content');
+            area.innerHTML = '';
+            
+            let html = '<div class="space-y-4"><h3 class="orbitron text-cyan-400">PROJECTS</h3>';
+            for(let id in pData) {
+                html += `<div class="glass p-4 rounded-xl border-l-4 border-cyan-400">
+                    <p class="font-black">${pData[id].name}</p>
+                    <p class="text-xs text-gray-500">${pData[id].phone}</p>
+                    <p class="text-sm italic mt-2">${pData[id].desc}</p>
+                    <button onclick="delEntry('projects','${id}')" class="text-red-500 text-[9px] underline mt-2">Delete</button>
+                </div>`;
+            }
+            html += '</div><div class="space-y-4"><h3 class="orbitron">CONSULTS</h3>';
+            for(let id in cData) {
+                html += `<div class="glass p-4 rounded-xl border-l-4 border-white">
+                    <p class="font-black">${cData[id].name}</p>
+                    <p class="text-xs text-gray-500">${cData[id].whatsapp}</p>
+                    <p class="text-sm italic mt-2">${cData[id].notes}</p>
+                    <button onclick="delEntry('consults','${id}')" class="text-red-500 text-[9px] underline mt-2">Delete</button>
+                </div>`;
+            }
+            html += '</div>';
+            area.innerHTML = html;
+        }
+
+        async function delEntry(p, id) {
+            if(confirm("Confirm deletion?")) {
+                await fetch(`${API}${p}/${id}.json`, { method: 'DELETE' });
+                loadAdmin();
+            }
+        }
+    </script>
+</body>
+</html>
