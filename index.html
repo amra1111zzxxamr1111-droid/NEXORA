@@ -2,8 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXORA | The Digital Visionary</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEXORA | The Ultimate Empire 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -11,29 +11,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --primary: #00f2ff; --bg: #000000; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #fff; overflow-x: hidden; }
+        :root { --primary: #00f2ff; --secondary: #bc13fe; --bg: #000000; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #fff; overflow-x: hidden; scroll-behavior: smooth; }
         .orbitron { font-family: 'Orbitron', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
         
-        /* 5-Second Pro Intro */
+        /* 🎨 Master Art Intro (5s) */
         #pro-intro { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .floating-window { position: absolute; width: 200px; height: 120px; border: 1px solid var(--primary); background: rgba(0,242,255,0.05); border-radius: 8px; opacity: 0; pointer-events: none; padding: 10px; font-family: monospace; font-size: 8px; color: var(--primary); }
+        .floating-window { 
+            position: absolute; width: 250px; height: 140px; border: 1px solid var(--primary); 
+            border-radius: 12px; opacity: 0; padding: 12px; font-family: 'Courier New', monospace; font-size: 9px; 
+            pointer-events: none; transition: 0.5s; box-shadow: 0 0 25px rgba(0, 242, 255, 0.15);
+        }
 
-        /* Service Visuals */
-        .service-img { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,242,255,0.2); transition: 0.5s; }
-        .service-img:hover { border-color: var(--primary); transform: scale(1.02); }
-        .mockup-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%); display: flex; align-items: flex-end; padding: 20px; }
+        .service-card { position: relative; border-radius: 40px; overflow: hidden; border: 1px solid rgba(0,242,255,0.1); transition: 0.6s; background: rgba(255,255,255,0.02); }
+        .service-card:hover { border-color: var(--primary); box-shadow: 0 0 50px rgba(0,242,255,0.3); transform: translateY(-10px); }
 
-        /* Buttons & Animations */
-        .btn-glow { transition: 0.3s; position: relative; overflow: hidden; }
-        .btn-glow:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-3px); }
-        .eng-card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .eng-card:hover { transform: scale(1.05); border-color: var(--primary); }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        /* 🤖 Professional Bot UI */
+        #chat-window { display: none; flex-direction: column; position: fixed; bottom: 100px; right: 20px; width: 380px; height: 550px; max-height: 75vh; z-index: 5000; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        #chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+        
+        /* 🖨️ Report Styling (Hidden in Web, Visible in Print) */
+        @media print {
+            body * { visibility: hidden; }
+            #print-section, #print-section * { visibility: visible; }
+            #print-section { position: absolute; left: 0; top: 0; width: 100%; color: #000; background: #fff; padding: 40px; font-family: 'Cairo', serif; }
+            .report-seal { border: 4px double #000; padding: 10px; display: inline-block; transform: rotate(-15deg); font-weight: bold; border-radius: 10px; margin-top: 50px; }
+        }
     </style>
 </head>
 <body>
@@ -41,249 +45,237 @@
     <div id="pro-intro">
         <div id="windows-container" class="absolute inset-0"></div>
         <div class="relative z-10 text-center">
-            <h1 id="main-logo" class="orbitron text-7xl md:text-[10rem] font-black opacity-0 scale-50">NEXORA</h1>
-            <p id="boot-text" class="text-cyan-400 tracking-[1em] text-[10px] mt-4 opacity-0 uppercase">Quantum System Loading...</p>
+            <h1 id="main-logo" class="orbitron text-7xl md:text-[11rem] font-black opacity-0 scale-50" style="text-shadow: 0 0 50px var(--primary);">NEXORA</h1>
+            <div class="w-64 h-1 bg-white/10 mx-auto mt-6 rounded-full overflow-hidden">
+                <div id="loading-bar" class="h-full bg-cyan-400 w-0"></div>
+            </div>
+            <p id="boot-text" class="text-cyan-400 tracking-[0.8em] text-[10px] mt-4 opacity-0 uppercase font-bold italic">Initializing Quantum Core...</p>
         </div>
     </div>
 
-    <nav class="fixed w-full z-50 p-6 flex justify-between items-center bg-black/40 backdrop-blur-xl">
-        <div onclick="adminGate()" class="flex items-center gap-3 cursor-pointer">
-            <div class="w-8 h-8 bg-cyan-400 rotate-45 shadow-[0_0_15px_#00f2ff]"></div>
-            <span class="orbitron text-2xl font-black">NEXORA</span>
+    <nav class="fixed w-full z-50 p-6 flex justify-between items-center bg-black/70 backdrop-blur-2xl border-b border-white/5">
+        <div onclick="adminGate()" class="flex items-center gap-3 cursor-pointer group">
+            <div class="w-8 h-8 bg-cyan-400 rotate-45 shadow-[0_0_20px_#00f2ff] group-hover:rotate-180 transition-all duration-1000"></div>
+            <span class="orbitron text-2xl font-black italic">NEXORA</span>
         </div>
-        <div class="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-widest opacity-60">
-            <a href="#home" class="hover:text-cyan-400">الرئيسية</a>
-            <a href="#services" class="hover:text-cyan-400">الخدمات</a>
-            <a href="#team" class="hover:text-cyan-400">الخبراء</a>
-        </div>
-        <div class="flex gap-4">
-            <button onclick="openModal('order')" class="btn-glow bg-cyan-500 text-black px-6 py-2 rounded-full text-[10px] font-black italic">اطلب مشروعك</button>
-            <button onclick="openModal('consult')" class="btn-glow bg-white text-black px-6 py-2 rounded-full text-[10px] font-black italic">احجز استشارة</button>
-        </div>
+        <button onclick="openModal('order')" class="bg-cyan-500 text-black px-8 py-2.5 rounded-full text-[10px] font-black uppercase italic tracking-widest hover:scale-105 transition">اطلب مشروعك</button>
     </nav>
 
-    <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center p-6 pt-24">
-        <h2 class="orbitron text-cyan-400 text-sm mb-6 tracking-[0.5em] font-black italic">// FUTURE ARCHITECTS</h2>
-        <h1 class="text-6xl md:text-[9rem] font-black leading-none mb-10 tracking-tighter">NEXORA<br><span class="text-transparent" style="-webkit-text-stroke: 1px #fff;">DIGITAL.</span></h1>
-        <p class="text-gray-500 max-w-2xl text-lg mb-12">نحن لسنا مجرد شركة برمجيات، نحن مصنع الحلول الذكية التي تضعك في القمة.</p>
-        <div class="flex gap-6">
-            <button onclick="window.location.href='#services'" class="border border-white/20 px-10 py-4 rounded-full font-bold hover:bg-white hover:text-black transition">استكشف خدماتنا</button>
-        </div>
+    <section class="min-h-screen flex flex-col justify-center items-center text-center p-6">
+        <h2 class="orbitron text-cyan-400 text-sm mb-6 tracking-[1em] font-black italic animate-pulse">// NEXORA_2026_VISION</h2>
+        <h1 class="text-7xl md:text-[13rem] font-black leading-none italic tracking-tighter">NEXORA<br><span class="text-transparent" style="-webkit-text-stroke: 1.5px #fff; opacity: 0.1;">RELOADED.</span></h1>
     </section>
 
     <section id="services" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto space-y-32">
-            
-            <div class="grid lg:grid-cols-2 gap-20 items-center">
-                <div class="order-2 lg:order-1">
-                    <span class="text-cyan-400 orbitron text-xs font-black">// 01 DEVELOPMENT</span>
-                    <h3 class="text-5xl font-black mt-4 mb-6 italic">تطوير المواقع والمنصات</h3>
-                    <p class="text-gray-400 leading-relaxed text-lg mb-8">نصمم لك واجهة تعكس هويتك وتجذب عملائك، مع برمجة خلفية صلبة تضمن أسرع أداء وأعلى حماية. نكسورا هي بيتك البرمجي الأول.</p>
-                    <button onclick="openModal('order')" class="bg-white text-black px-8 py-3 rounded-xl font-black">اطلب موقعك الآن</button>
-                </div>
-                <div class="order-1 lg:order-2 service-img h-[400px]">
-                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60">
-                    <div class="mockup-overlay">
-                        <div class="orbitron text-2xl font-black bg-black/80 px-4 py-2 rounded">NEXORA_WEB_OS</div>
+        <div class="max-w-7xl mx-auto space-y-56">
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                <div class="order-2 lg:order-1 space-y-8">
+                    <span class="text-cyan-400 orbitron text-xs font-black tracking-widest">// 01 CORE_DEVELOPMENT</span>
+                    <h3 class="text-6xl font-black italic">برمجة الأنظمة والتطبيقات</h3>
+                    <div class="text-gray-400 text-lg space-y-4">
+                        <p>نحن نبني المستقبل بأكواد نظيفة وأنظمة لا تقبل الاختراق مع م/ يوسف ماجد.</p>
+                        <ul class="list-disc list-inside text-sm text-cyan-100/70 space-y-2">
+                            <li>تطبيقات Mobile (iOS & Android) باستخدام Flutter & Dart.</li>
+                            <li>منصات الويب الضخمة باستخدام React و Node.js.</li>
+                            <li>تأمين السيرفرات السحابية (Cloud Security).</li>
+                        </ul>
                     </div>
+                    <button onclick="openModal('order')" class="bg-white text-black px-12 py-4 rounded-2xl font-black italic">ابدأ بناء نظامك</button>
+                </div>
+                <div class="order-1 lg:order-2 service-card h-[500px]">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-50">
                 </div>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-20 items-center">
-                <div class="service-img h-[400px]">
-                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60">
-                    <div class="mockup-overlay">
-                        <div class="orbitron text-2xl font-black bg-cyan-500 text-black px-4 py-2 rounded">NEXORA_APP_HUB</div>
-                    </div>
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                <div class="service-card h-[500px] bg-gray-900 border-2 border-cyan-500/20 flex flex-col justify-center items-center">
+                    <svg viewBox="0 0 400 300" class="w-full max-w-sm"><polyline points="0,250 50,200 100,220 150,150 200,180 250,100 300,130 350,50" fill="none" stroke="#00f2ff" stroke-width="4"><animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="5s" repeatCount="indefinite" /></polyline></svg>
                 </div>
-                <div>
-                    <span class="text-cyan-400 orbitron text-xs font-black">// 02 MOBILE SYSTEMS</span>
-                    <h3 class="text-5xl font-black mt-4 mb-6 italic">تطبيقات الموبايل</h3>
-                    <p class="text-gray-400 leading-relaxed text-lg mb-8">تطبيقات iOS و Android تعتمد على تجربة المستخدم (UX). نضمن لك تطبيقاً يتصدر المتاجر الإلكترونية بلمسة احترافية.</p>
-                    <button onclick="openModal('order')" class="bg-cyan-500 text-black px-8 py-3 rounded-xl font-black">ابدأ برمجة تطبيقك</button>
+                <div class="space-y-8">
+                    <span class="text-cyan-400 orbitron text-xs font-black tracking-widest">// 02 DATA_INTELLIGENCE</span>
+                    <h3 class="text-6xl font-black italic">تحليل البيانات (BI)</h3>
+                    <div class="text-gray-400 text-lg space-y-4">
+                        <p>حوّل أرقامك لقرارات ذكية تضاعف أرباحك بإشراف خبيرة التحليل م/ ريني عماد.</p>
+                        <ul class="list-disc list-inside text-sm text-cyan-100/70 space-y-2">
+                            <li>تقارير Power BI و Tableau تفاعلية.</li>
+                            <li>تحليل سلوك العملاء ونمذجة التنبؤ المالي.</li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('order')" class="bg-cyan-500 text-black px-12 py-4 rounded-2xl font-black">اكتشف أسرار بياناتك</button>
                 </div>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-20 items-center">
-                <div>
-                    <span class="text-cyan-400 orbitron text-xs font-black">// 03 GROWTH & STRATEGY</span>
-                    <h3 class="text-5xl font-black mt-4 mb-6 italic">التسويق والاستشارات</h3>
-                    <p class="text-gray-400 leading-relaxed text-lg mb-8">إذا كنت تملك رأس المال وتبحث عن البداية الصحيحة، المهندس عمرو صلاح يضع لك الخطة التسويقية والاستراتيجية للسيطرة على السوق.</p>
-                    <button onclick="openModal('consult')" class="bg-white text-black px-8 py-3 rounded-xl font-black">احجز استشارتك</button>
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                <div class="space-y-8">
+                    <span class="text-cyan-400 orbitron text-xs font-black tracking-widest">// 03 STRATEGIC_GROWTH</span>
+                    <h3 class="text-6xl font-black italic">التسويق والاستشارات</h3>
+                    <p class="text-gray-400 text-lg">نحن شركاؤك في النجاح، نضع لك الخطة وننفذها للسيطرة على السوق مع خبير التخطيط م/ عمرو صلاح.</p>
+                    <button onclick="openModal('consult')" class="bg-white text-black px-12 py-4 rounded-2xl font-black italic shadow-[0_0_30px_#fff]">احجز جلسة استشارية</button>
                 </div>
-                <div class="service-img h-[400px]">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60">
-                    <div class="mockup-overlay">
-                        <div class="orbitron text-2xl font-black bg-white text-black px-4 py-2 rounded">NEXORA_GROWTH</div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section id="team" class="py-32 bg-white/[0.01]">
-        <div class="max-w-7xl mx-auto px-6">
-            <h3 class="text-4xl font-black italic mb-16 text-center">عقول نكسورا المدبرة</h3>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-10 rounded-[3rem] eng-card text-center">
-                    <h4 class="text-2xl font-black mb-2 italic">م/ عمرو صلاح</h4>
-                    <p class="text-cyan-400 text-[10px] font-bold uppercase mb-6 tracking-widest italic">Business Architect & CEO</p>
-                    <p class="text-gray-400 text-sm leading-loose mb-8 italic">خبير في تحويل الأفكار إلى شركات ناجحة. يمتلك رؤية ثاقبة في السوق المصري والخليجي، وهو المسؤول عن رسم خارطة الطريق لجميع مشاريعنا.</p>
-                    <div class="flex justify-center gap-4">
-                        <a href="https://wa.me/201107545181" class="text-xl hover:text-cyan-400"><i class="fab fa-whatsapp"></i></a>
-                        <a href="mailto:amra7777zzxxamr7777@gmail.com" class="text-xl hover:text-cyan-400"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
-                <div class="glass p-10 rounded-[3rem] eng-card text-center border-t-2 border-cyan-500">
-                    <h4 class="text-2xl font-black mb-2 italic">م/ ريني عماد</h4>
-                    <p class="text-cyan-400 text-[10px] font-bold uppercase mb-6 tracking-widest italic">UI/UX Strategy Queen</p>
-                    <p class="text-gray-400 text-sm leading-loose mb-8 italic">العقل المبدع خلف كل واجهة تراها. تهتم بأدق التفاصيل البصرية لضمان أن يكون موقعك أو تطبيقك لوحة فنية سهلة الاستخدام.</p>
-                    <div class="flex justify-center gap-4">
-                        <a href="https://wa.me/201283029727" class="text-xl hover:text-cyan-400"><i class="fab fa-whatsapp"></i></a>
-                        <a href="mailto:rehamnageh21@gmail.com" class="text-xl hover:text-cyan-400"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
-                <div class="glass p-10 rounded-[3rem] eng-card text-center">
-                    <h4 class="text-2xl font-black mb-2 italic">م/ يوسف ماجد</h4>
-                    <p class="text-cyan-400 text-[10px] font-bold uppercase mb-6 tracking-widest italic">Backend & Security Titan</p>
-                    <p class="text-gray-400 text-sm leading-loose mb-8 italic">حارس النظام. المسؤول عن بناء السيرفرات القوية وحماية بيانات العملاء، يضمن أن يعمل نظامك تحت أي ضغط وبأعلى سرعة ممكنة.</p>
-                    <div class="flex justify-center gap-4">
-                        <a href="https://wa.me/201153644680" class="text-xl hover:text-cyan-400"><i class="fab fa-whatsapp"></i></a>
-                        <a href="mailto:yousefelfakhry35@gmail.com" class="text-xl hover:text-cyan-400"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
+                <div class="service-card h-[500px]"><img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-50"></div>
             </div>
         </div>
     </section>
 
-    <div id="modal-box" class="fixed inset-0 bg-black/95 z-[500] hidden items-center justify-center p-6 backdrop-blur-3xl">
-        <div class="glass w-full max-w-xl p-12 rounded-[3.5rem] border border-cyan-400/20 relative">
-            <button onclick="closeModal()" class="absolute top-8 left-8 text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
-            <div id="project-form" class="hidden space-y-6 text-right">
-                <h3 class="text-3xl font-black italic">طلب مشروع نكسورا</h3>
-                <input id="in-name" type="text" placeholder="الاسم الكامل" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-                <input id="in-phone" type="text" placeholder="رقم الهاتف" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-                <textarea id="in-desc" placeholder="اوصف لنا رؤيتك..." class="w-full bg-white/5 p-4 rounded-xl border border-white/10 h-32 outline-none"></textarea>
-                <button onclick="submitData('projects')" class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black text-lg">تشفير وإرسال</button>
+    <section id="team" class="py-40 bg-white/[0.01]">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
+            <div class="glass p-12 rounded-[4rem] text-center border-b-4 border-cyan-500"><h4 class="text-3xl font-black italic">م/ عمرو صلاح</h4><p class="text-cyan-400 text-[10px] mt-4 uppercase font-bold tracking-[0.3em]">CEO & Business Strategist</p></div>
+            <div class="glass p-12 rounded-[4rem] text-center border-b-4 border-white"><h4 class="text-3xl font-black italic">م/ ريني عماد</h4><p class="text-cyan-400 text-[10px] mt-4 uppercase font-bold tracking-[0.3em]">UI/UX & Data Analytics</p></div>
+            <div class="glass p-12 rounded-[4rem] text-center border-b-4 border-cyan-500"><h4 class="text-3xl font-black italic">م/ يوسف ماجد</h4><p class="text-cyan-400 text-[10px] mt-4 uppercase font-bold tracking-[0.3em]">Backend & Security Titan</p></div>
+        </div>
+    </section>
+
+    <div id="chat-bot-container">
+        <button onclick="toggleChat()" class="fixed bottom-8 right-8 w-20 h-20 bg-cyan-500 rounded-full neon-pulse flex items-center justify-center text-black text-3xl z-[5000]"><i class="fas fa-robot"></i></button>
+        <div id="chat-window" class="glass rounded-[3rem] border border-cyan-400/30 overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-white/10 bg-cyan-500/10 flex justify-between items-center"><span class="orbitron text-[10px] text-cyan-400">Nexora_A.I</span><button onclick="toggleChat()"><i class="fas fa-times"></i></button></div>
+            <div id="chat-messages" class="bg-black/50"></div>
+            <div class="p-5 bg-black/80 flex gap-3"><input id="chat-input" type="text" placeholder="اسألني عن أي حاجة..." class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-white text-xs"><button onclick="handleChat()" class="bg-cyan-500 text-black w-12 h-12 rounded-2xl flex items-center justify-center"><i class="fas fa-paper-plane"></i></button></div>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="fixed inset-0 bg-black z-[9000] hidden overflow-y-auto p-10">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="orbitron text-3xl font-black text-cyan-400">NEXORA_DASHBOARD_2026</h2>
+                <div class="flex gap-4">
+                    <button onclick="printAllReports()" class="bg-cyan-600 px-6 py-2 rounded-xl text-xs">تنزيل كل الطلبات (PDF)</button>
+                    <button onclick="closeAdmin()" class="bg-red-500 px-6 py-2 rounded-xl text-xs">خروج</button>
+                </div>
             </div>
-            <div id="consult-form" class="hidden space-y-6 text-right">
-                <h3 class="text-3xl font-black italic">حجز استشارة بيزنس</h3>
-                <input id="co-name" type="text" placeholder="الاسم الرباعي" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-                <input id="co-whatsapp" type="text" placeholder="واتساب" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-                <textarea id="co-notes" placeholder="ما هي التحديات التي تواجهك؟" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 h-32 outline-none"></textarea>
-                <button onclick="submitData('consults')" class="w-full bg-white text-black py-4 rounded-xl font-black text-lg">تأكيد الجلسة</button>
+            <div id="admin-content" class="grid gap-6"></div>
+        </div>
+    </div>
+
+    <div id="print-section" class="hidden"></div>
+
+    <div id="modal-box" class="fixed inset-0 bg-black/95 z-[6000] hidden items-center justify-center p-6 backdrop-blur-3xl">
+        <div class="glass w-full max-w-xl p-12 rounded-[4rem] relative text-right">
+            <button onclick="closeModal()" class="absolute top-8 left-8 text-gray-400"><i class="fas fa-times text-2xl"></i></button>
+            <h3 id="modal-title" class="text-4xl font-black italic mb-8">ابدأ رحلتك</h3>
+            <div class="space-y-6">
+                <input id="in-name" type="text" placeholder="الاسم" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 outline-none focus:border-cyan-400">
+                <input id="in-phone" type="text" placeholder="الموبايل" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 outline-none focus:border-cyan-400">
+                <textarea id="in-desc" placeholder="التفاصيل..." class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 h-32"></textarea>
+                <button onclick="submitData()" class="w-full bg-cyan-500 text-black py-5 rounded-2xl font-black">إرسال الطلب</button>
             </div>
         </div>
     </div>
 
-    <div id="admin-panel" class="fixed inset-0 bg-black z-[2000] hidden p-10 overflow-y-auto">
-        <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-5">
-            <h2 class="orbitron text-2xl font-black text-cyan-400">NEXORA_DB_V2.0</h2>
-            <button onclick="location.reload()" class="bg-red-600 px-6 py-1 rounded-full text-[10px] font-black uppercase">Terminate</button>
-        </div>
-        <div id="admin-content" class="grid md:grid-cols-2 gap-10"></div>
-    </div>
-
-    <footer class="py-10 text-center opacity-30">
-        <p class="text-[8px] uppercase tracking-[1em]">© 2026 NEXORA SYSTEMS | BY AMR & REENY & YOUSEF</p>
+    <footer class="py-20 border-t border-white/5 text-center text-gray-500 text-xs">
+        <p class="orbitron font-black text-white mb-4 text-2xl">NEXORA</p>
+        &copy; 2026 Nexora Empire. All Rights Reserved.
     </footer>
 
     <script>
         const API = "https://nexora-e5de6-default-rtdb.firebaseio.com/";
+        let currentMode = "order";
 
-        // 1. ADVANCED INTRO
+        // 🎨 MASTER INTRO (5s)
         window.addEventListener('load', () => {
             const container = document.getElementById('windows-container');
             for(let i=0; i<15; i++) {
-                const win = document.createElement('div');
-                win.className = 'floating-window';
-                win.style.left = Math.random() * 80 + '%';
-                win.style.top = Math.random() * 80 + '%';
-                win.innerHTML = `> INIT_MODULE_${Math.random().toString(16).slice(2,6)}<br>> LOADING_DATA...<br>> OK.`;
+                const win = document.createElement('div'); win.className = 'floating-window';
+                win.style.left = Math.random()*80+'%'; win.style.top = Math.random()*80+'%';
+                win.style.borderColor = i % 2 === 0 ? '#00f2ff' : '#bc13fe';
+                win.innerHTML = `> SYNCING_NODE_${Math.random().toString(16).slice(2,6)}<br>> STATUS: ENCRYPTED<br>> BIT_RATIO: 1.22`;
                 container.appendChild(win);
             }
-
-            const tl = gsap.timeline();
-            tl.to(".floating-window", { opacity: 1, stagger: 0.1, duration: 0.5 })
-              .to(".floating-window", { x: () => Math.random()*100-50, y: () => Math.random()*100-50, duration: 3, ease: "none" }, "-=1.5")
-              .to("#main-logo", { opacity: 1, scale: 1, duration: 1, ease: "expo.out" }, "-=2")
-              .to("#boot-text", { opacity: 1, duration: 0.5 }, "-=1")
-              .to("#pro-intro", { yPercent: -100, duration: 1.2, ease: "expo.inOut", delay: 1 });
+            gsap.timeline()
+                .to(".floating-window", { opacity: 1, stagger: 0.1, duration: 0.5 })
+                .to("#main-logo", { opacity: 1, scale: 1, duration: 1.5, ease: "back.out" })
+                .to("#loading-bar", { width: "100%", duration: 3 })
+                .to("#boot-text", { opacity: 1, duration: 0.5 }, "-=1")
+                .to("#pro-intro", { yPercent: -100, duration: 1.5, ease: "expo.inOut", delay: 0.5 });
         });
 
-        // 2. MODAL SYSTEM
-        function openModal(type) {
-            document.getElementById('modal-box').style.display = 'flex';
-            document.getElementById('project-form').classList.toggle('hidden', type !== 'order');
-            document.getElementById('consult-form').classList.toggle('hidden', type !== 'consult');
-        }
-        function closeModal() { document.getElementById('modal-box').style.display = 'none'; }
+        // 🤖 KNOWLEDGEABLE BOT
+        const botBrain = {
+            "سلام|اهلا|ازيك|هلو|السلام عليكم": "وعليكم السلام يا غالي! نورت نكسورا. أنا بخير والحمد لله.. أنت طمني عليك؟ تحب ندردش في مشروعك الجديد؟",
+            "خدمات|بتعملوا ايه|تفاصيل": "إحنا في نكسورا بنقدم خدمات شاملة:\n- برمجة تطبيقات iOS & Android.\n- تحليل بيانات BI احترافي.\n- تسويق واستشارات نمو بيزنس.",
+            "عمرو|ريني|يوسف": "الفريق القيادي:\n- م/ عمرو صلاح: خبير الاستراتيجيات.\n- م/ ريني عماد: خبيرة الـ Data & UI.\n- م/ يوسف ماجد: عملاق الـ Backend.",
+            "سعر|تكلفة|بكام": "الأسعار بتبدأ من 100$ وبتزيد حسب تعقيد المشروع. سيب رقمك وهنكلمك ندردش في التفاصيل.",
+            "برمجة|كود|لغات": "بنستخدم أحدث التقنيات زي Flutter, React, Node.js, و Python لتأمين الأنظمة.",
+            "شكرا|تسلم|كويس": "في خدمتك دايماً يا فنان! نكسورا موجودة عشان تحول حلمك لواقع."
+        };
 
-        // 3. DATABASE
-        async function submitData(path) {
-            let data = {};
-            if(path === 'projects') {
-                data = { name: document.getElementById('in-name').value, phone: document.getElementById('in-phone').value, desc: document.getElementById('in-desc').value, date: new Date().toLocaleString('ar-EG') };
-            } else {
-                data = { name: document.getElementById('co-name').value, whatsapp: document.getElementById('co-whatsapp').value, notes: document.getElementById('co-notes').value, date: new Date().toLocaleString('ar-EG') };
-            }
-            if(!data.name) return alert("اكمل البيانات");
-            await fetch(`${API}${path}.json`, { method: 'POST', body: JSON.stringify(data) });
-            alert("تم إرسال بياناتك بأمان.");
-            closeModal();
+        function toggleChat() { document.getElementById('chat-window').style.display = (document.getElementById('chat-window').style.display === 'flex') ? 'none' : 'flex'; }
+        function handleChat() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim(); if(!msg) return;
+            addMsg(msg, 'user'); input.value = '';
+            let reply = "سؤال عبقري! سيب بياناتك في 'اطلب مشروعك' وهنرد عليك فوراً بشرح وافي.";
+            for(let k in botBrain) { if(new RegExp(k,'i').test(msg)) reply = botBrain[k]; }
+            setTimeout(() => addMsg(reply, 'bot'), 600);
+        }
+        function addMsg(t, s) {
+            const d = document.createElement('div');
+            d.className = s === 'user' ? "bg-cyan-500 text-black p-4 rounded-2xl ml-auto text-xs font-bold" : "bg-white/10 p-4 rounded-2xl mr-auto text-xs border border-white/5";
+            d.innerHTML = t.replace(/\n/g,'<br>');
+            document.getElementById('chat-messages').appendChild(d);
+            document.getElementById('chat-messages').scrollTop = 99999;
         }
 
-        // 4. ADMIN ACCESS
+        // 🔐 ADMIN & REPORTING
         let clicks = 0;
-        function adminGate() {
-            clicks++;
-            if(clicks === 3) {
-                if(prompt("Enter Admin Key:") === "15102009") {
-                    document.getElementById('admin-panel').classList.remove('hidden');
-                    loadAdmin();
-                }
-                clicks = 0;
-            }
-            setTimeout(() => clicks = 0, 2000);
+        function adminGate() { clicks++; if(clicks === 3) { if(prompt("Pass:") === "15102009") showAdmin(); clicks = 0; } setTimeout(() => clicks = 0, 2000); }
+
+        async function showAdmin() {
+            document.getElementById('admin-panel').classList.remove('hidden');
+            const res = await fetch(`${API}.json`); const data = await res.json();
+            let h = "";
+            for(let k in data.projects) h += renderAdminCard('Project', data.projects[k], k, 'projects');
+            for(let k in data.consults) h += renderAdminCard('Consult', data.consults[k], k, 'consults');
+            document.getElementById('admin-content').innerHTML = h || "No Requests Found.";
         }
 
-        async function loadAdmin() {
-            const pRes = await fetch(`${API}projects.json`);
-            const cRes = await fetch(`${API}consults.json`);
-            const pData = await pRes.json();
-            const cData = await cRes.json();
-            const area = document.getElementById('admin-content');
-            area.innerHTML = '';
-            
-            let html = '<div class="space-y-4"><h3 class="orbitron text-cyan-400">PROJECTS</h3>';
-            for(let id in pData) {
-                html += `<div class="glass p-4 rounded-xl border-l-4 border-cyan-400">
-                    <p class="font-black">${pData[id].name}</p>
-                    <p class="text-xs text-gray-500">${pData[id].phone}</p>
-                    <p class="text-sm italic mt-2">${pData[id].desc}</p>
-                    <button onclick="delEntry('projects','${id}')" class="text-red-500 text-[9px] underline mt-2">Delete</button>
-                </div>`;
-            }
-            html += '</div><div class="space-y-4"><h3 class="orbitron">CONSULTS</h3>';
-            for(let id in cData) {
-                html += `<div class="glass p-4 rounded-xl border-l-4 border-white">
-                    <p class="font-black">${cData[id].name}</p>
-                    <p class="text-xs text-gray-500">${cData[id].whatsapp}</p>
-                    <p class="text-sm italic mt-2">${cData[id].notes}</p>
-                    <button onclick="delEntry('consults','${id}')" class="text-red-500 text-[9px] underline mt-2">Delete</button>
-                </div>`;
-            }
-            html += '</div>';
-            area.innerHTML = html;
+        function renderAdminCard(type, item, id, path) {
+            return `<div class='glass p-6 border-l-4 ${type==='Project'?'border-cyan-400':'border-white'} flex justify-between items-center'>
+                <div><b>${type}:</b> ${item.name} (${item.phone})<br><small class='text-gray-500'>${item.date}</small><br><p class='mt-2'>${item.desc}</p></div>
+                <div class='flex flex-col gap-2'>
+                    <button onclick="printReport('${item.name}','${item.phone}','${item.desc}','${item.date}','${type}')" class='bg-white text-black px-4 py-1 rounded text-[10px] font-bold'>تقرير مختوم</button>
+                    <button onclick="deleteEntry('${path}','${id}')" class='bg-red-500/20 text-red-500 px-4 py-1 rounded text-[10px]'>حذف (منتهي)</button>
+                </div>
+            </div>`;
         }
 
-        async function delEntry(p, id) {
-            if(confirm("Confirm deletion?")) {
-                await fetch(`${API}${p}/${id}.json`, { method: 'DELETE' });
-                loadAdmin();
-            }
+        async function deleteEntry(path, id) { if(confirm("حذف الطلب نهائياً؟")) { await fetch(`${API}${path}/${id}.json`, {method:'DELETE'}); showAdmin(); } }
+
+        function printReport(name, phone, desc, date, type) {
+            const printArea = document.getElementById('print-section');
+            printArea.innerHTML = `
+                <div style="text-align:center; border-bottom: 2px solid #000; padding-bottom: 20px;">
+                    <h1 style="margin:0">NEXORA EMPIRE 2026</h1>
+                    <p>تقرير رسمي عن طلب خدمة رقم: ${Math.floor(Math.random()*10000)}</p>
+                </div>
+                <div style="margin-top:40px; line-height: 2;">
+                    <p><b>نوع الطلب:</b> ${type === 'Project' ? 'مشروع جديد' : 'جلسة استشارية'}</p>
+                    <p><b>اسم العميل:</b> ${name}</p>
+                    <p><b>رقم التواصل:</b> ${phone}</p>
+                    <p><b>تاريخ الطلب:</b> ${date}</p>
+                    <p><b>تفاصيل المشروع:</b> ${desc}</p>
+                </div>
+                <div class="report-seal">نكسورا - قسم العمليات - مختوم</div>
+                <p style="margin-top:50px; font-size:12px;">هذا التقرير صادر إلكترونياً من إمبراطورية نكسورا 2026.</p>
+            `;
+            window.print();
         }
+
+        function printAllReports() { window.print(); }
+        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
+
+        // MODAL
+        function openModal(m) { currentMode = m; document.getElementById('modal-title').innerText = m === 'consult' ? "احجز استشارة" : "اطلب مشروعك"; document.getElementById('modal-box').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modal-box').style.display = 'none'; }
+        async function submitData() {
+            const path = currentMode === 'consult' ? 'consults' : 'projects';
+            const data = { name: document.getElementById('in-name').value, phone: document.getElementById('in-phone').value, desc: document.getElementById('in-desc').value, date: new Date().toLocaleString() };
+            if(!data.name || !data.phone) return alert("اكمل البيانات");
+            await fetch(`${API}${path}.json`, { method: 'POST', body: JSON.stringify(data) });
+            alert("تم إرسال طلبك بنجاح!"); closeModal();
+        }
+
+        document.getElementById('chat-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleChat(); });
     </script>
 </body>
 </html>
